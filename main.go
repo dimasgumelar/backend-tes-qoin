@@ -9,7 +9,7 @@ import (
 func main() {
 	fmt.Println("========== PERMAIAN DADU ==========")
 	playerCount := InputInteger("Masukkan jumlah pemain     : ", "Masukan harus bilangan bulat lebih dari 0")
-	diceCount := InputInteger("Masukkan jumlah dadu (1-6) : ", "Masukan harus bilangan bulat antara 1-6")
+	diceCount := InputInteger("Masukkan jumlah dadu       : ", "Masukan harus bilangan bulat antara 1-6")
 	fmt.Println(fmt.Sprintf("Pemain = %d, Dadu = %d", playerCount, diceCount))
 	
 	if playerCount == 1 {
@@ -92,6 +92,7 @@ func CheckIsGameEnd(players []structs.Player) (check bool, playerActiveIndex int
 		} else {
 			if maxPoint < player.Point {
 				playerTheMostPointIndex = playerIndex
+				maxPoint = player.Point
 			}
 		}
 	}
