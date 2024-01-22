@@ -17,7 +17,7 @@ func main() {
 		fmt.Println("Tidak ada pemain yang menang ataupun kalah karena hanya ada 1 pemain.")
 	} else {
 		players := GameInit(playerCount, diceCount)
-		winnerIndex, looserIndex := GameStart(players, diceCount)
+		looserIndex, winnerIndex := GameStart(players, diceCount)
 	
 		fmt.Println("===================================")
 		fmt.Println(fmt.Sprintf("Game berakhir karena hanya %s yang memiliki dadu.", players[looserIndex].Name))
@@ -69,11 +69,12 @@ func PrintDice(dices []int) (result string) {
 }
 
 func GameInit(playerCount int, diceCount int) (players []structs.Player) {
+	diceInit := DiceInit(diceCount)
 	for i := 0; i < playerCount; i++ {
 		players = append(players, structs.Player{
 			Name: fmt.Sprintf("Pemain #%d", i+1),
 			Point: 0,
-			Dice: DiceInit(diceCount),
+			Dice: append([]int{}, diceInit...),
 			IsActive: true,
 		})
 	}
@@ -114,7 +115,7 @@ func NextPlayerIndex(players []structs.Player, playerIndex int) (nextPlayerIndex
 func GameStart(players []structs.Player, diceCount int) (looserIndex int, winnerIndex int) {
 	gameIndex := 1
 	var isGameEnd bool
-	for {
+	for !isGameEnd {
 		fmt.Println("===================================")
 		fmt.Println(fmt.Sprintf("Giliran %d lempar dadu:", gameIndex))
 		for playerIndex, player := range players {
@@ -156,9 +157,6 @@ func GameStart(players []structs.Player, diceCount int) (looserIndex int, winner
 		}
 
 		isGameEnd, looserIndex, winnerIndex = CheckIsGameEnd(players)
-		if isGameEnd {
-			break
-		}
 		gameIndex++
 	}
 	return looserIndex, winnerIndex
